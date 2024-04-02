@@ -1,14 +1,18 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
+//import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 public class Zapateria {
 
@@ -20,14 +24,16 @@ public class Zapateria {
             "Vans Old Skool color negro, talla 26", "York Team Polo Club color negro, talla 26", "Quirelli modelo 8602 color cafe, talla 26.5", "Zapato casual de piel para hombre color negro, talla 27.5", "Zapato Bordon Serraje color cafe, talla 27" /*Termina Productos Hombre */};
             // Array de todos los nombres de los productos
 
-            int precioProduct[] = {565, 620, 970, 700, 490,
-                                    600, 480, 865, 565,700, 
-                                    1270, 895, 760, 870, 960,
-                                    1600, 800, 950, 650, 500};
-                // Array con los precios de todos los productos
+        int precioProduct[] = {565, 620, 970, 700, 490,
+                                600, 480, 865, 565,700, 
+                                1270, 895, 760, 870, 960,
+                                1600, 800, 950, 650, 500};
+            // Array con los precios de todos los productos
 
         JFrame f = new JFrame("Articulos para comprar");
         //JFrame es nuestra ventana que se emerge, dentro del parentess va el titulo entre comillas
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        //sirve que cuando cierro la ventana se sale del programa, pone fin
 
         f.setLayout(null);
 
@@ -36,6 +42,8 @@ public class Zapateria {
         //altura igual a cero para que no se acumula o provoque errores dentro del for
         JCheckBox caja[];
         caja = new JCheckBox[20];
+        JButton Images[];
+        Images = new JButton[20];
         int precio[];
         precio = new int[20];
         String CompraProductos[];
@@ -51,12 +59,14 @@ public class Zapateria {
                              *y los numeros de i se los asignaremos a los checkbox para que guarden el nombre y precio de cada uno 
                              */
                             caja[i] = new JCheckBox(Products[i] + " Precio: " + precioProduct[i]);
+                            Images[i] = new JButton("Ver Imagen");
                             /*JCheckbox es la declaracion de un checkbox, donde le asignamos un nombre de variable, despes del 
                              * igual utilzamos lo que es new JchechkBox para indicar que es un nuevo objeto o vista
                              * y dentro del parentesis le damos el valor que queremos darle
                              */
                             altura += 30;
                             caja[i].setBounds(20,altura,500,30);
+                            Images[i].setBounds(520,altura,150,20);
                             /*setBounds se encarga de acomodar la vista u objerto en algun lado del Jframe o ventana
                              * donde existen 4 valores, (x, y, ancho, largo) y acomodarlos como en un plano cartesiano
                              * dandole valores a x, y para acomodarlos y darles un ancho y largo y que no choquen entre si 
@@ -65,6 +75,7 @@ public class Zapateria {
                             caja[i].setVisible(true);
                             /*setVisible se encarga de hacerlos visibles, ya que aveces falla y solo se ve el primero o uno a la vez */
                             f.add(caja[i]);
+                            f.add(Images[i]);
                             /*Con este ultimo agregamos nuestra caja, objeto o vista a la ventana con todos los valores que le dimos
                              * por eso va al ultimo
                              */
@@ -143,13 +154,12 @@ public class Zapateria {
         /*El tamano que tendra de nuetra ventana por default*/
         f.setVisible(true);
         /*Ver la ventana, que sea visible */
-        
+    
         ActionListener botones = new ActionListener(){
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                StringBuilder mensaje = new StringBuilder();
-                //para armar textos o sintaxis/formatos,  es parecido a StringFormat
+               
                 int cont = 0;
                 if (e.getSource() == aceptar){
 
@@ -167,36 +177,18 @@ public class Zapateria {
                             }
                         }
 
-                        mensaje.append("Productos seleccionados:\n");
-                            for (int i = 0; i < limite; i++) {
-                                if (CompraProductos[i] != null && precio[i] != 0) {
-                                    mensaje.append(CompraProductos[i]).append(" - Precio: ").append(precio[i]).append("\n");
-                                }
-                            }
-                        
-                        if (codigo == 277353 || codigo == 54321 ) {
-                            Total = Total*0.9;
-                            // Agregar el total al mensaje
-                            mensaje.append("\nTienes descuento del 10%");
-                            mensaje.append("\nTotal: ").append(Total);
-                        }else{
-                            mensaje.append("\nTotal: ").append(Total);
-                        }
 
-                        //LA sigueinye linea modifca el texto del ok cancel donde en vez de decir
-                        //ok dira pagar
-                        UIManager.put("JOptionPane.okButtonText", "Pagar");
-                        UIManager.put("JOptionPane.cancelButtonText", "Cancelar Compra");
-                        JOptionPane.showConfirmDialog(null, mensaje.toString(), "Lista de Productos y Total", JOptionPane.OK_CANCEL_OPTION);
-
-                        pagar(cont, precio, CompraProductos, Total);
+                        pagar(limite, precio, CompraProductos, Total, codigo);
 
                     }
 
                 }else if (e.getSource() == cancelar){
                     //JOptionPane.showMessageDialog(null, "Apretaste que no quieres", "Cancelar", 0);
                     f.dispose();
+                    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
                     //dispose cierra la ventana, es decirla elimina para no consumir memoria
+                    }else if (e.getSource() == Images) {
+                        
                     }
             }
         };
@@ -210,24 +202,12 @@ public class Zapateria {
     public static void main(String[] args) {
         System.out.flush();
         //limpia los datos de la consola que vienen por defecto
-        
-        Scanner respuesta = new Scanner(System.in);
-        /*Scanner donde leeremos las respuestas */
-        Scanner numeros = new Scanner(System.in);
-        /*Scanner donde leeremos los numeros */
-        Scanner Articulos = new Scanner(System.in);
-        /*Scanner donde leeremos los articulos que compraremos */
 
         String opcion = "";
         /*opcion para los menus */
-        String Opt = "";
+        
         /*opcion para el control de las compras, pudiendo comprar un maximo */
         int codigo = 0;//
-        /* para validar Codigo de descuento */
-        Double total = 0.0;
-        /*Calcular el total, con decimales si se usa el codigo de descuento */
-        int limite = 2;
-        /*Marca el limite de articulos que pued comprar la persona */
 
         String categorias[] = {"Niña","Niño","Mujer","Hombre","Ver todos los productos"};
         /*Array con la categorias, estas van en el menu desplegable */
@@ -245,20 +225,20 @@ public class Zapateria {
              * icono nulo porque no elegimos, opciones arrary para las opciones del menu, 
              * el ultimo opciones es la opcion por default, que sera opciones lanzando el primer valor
              */
-            int contador = 0;
+            //int contador = 0;
             /*contador de veces que elige un producto el usuario */
 
-            String Products[] = {"Zapatos Shein color rosa, talla 8", "Sadak Huarache frozen con tacon, talla 9", "Zapatos shein color negro de vestir, talla 9", "Tenis de moda girls attitude color rosa, talla 8"," Tenis Nike Court Borought color rosa, talla 10",//Termina Productos Nina 
-            "Nautica Spinnaker Plebbed plano color blanco, talla 9", "Landhiker color blanco, talla 10", "Marvel botines de spiderman talla 9", "Bruno Marc zappatos Oxford de vestir, talla 9", "Tenis casual para niño Rokino Modelo 3186, talla 11", //Termina Productos Nino 
-            "Dream paris color blanco, talla 24", "Atoshopce color negro, talla 23", "Madden girl color durazno, talla 25", "Shoe land color negro, talla 24", "GUESS loven color blanco, talla 23", //Termina Productos Mujer 
-            "Vans Old Skool color negro, talla 26", "York Team Polo Club color negro, talla 26", "Quirelli modelo 8602 color cafe, talla 26.5", "Zapato casual de piel para hombre color negro, talla 27.5", "Zapato Bordon Serraje color cafe, talla 27"};//Termina Productos Hombre
+            //String Products[] = {"Zapatos Shein color rosa, talla 8", "Sadak Huarache frozen con tacon, talla 9", "Zapatos shein color negro de vestir, talla 9", "Tenis de moda girls attitude color rosa, talla 8"," Tenis Nike Court Borought color rosa, talla 10",//Termina Productos Nina 
+            //"Nautica Spinnaker Plebbed plano color blanco, talla 9", "Landhiker color blanco, talla 10", "Marvel botines de spiderman talla 9", "Bruno Marc zappatos Oxford de vestir, talla 9", "Tenis casual para niño Rokino Modelo 3186, talla 11", //Termina Productos Nino 
+            //"Dream paris color blanco, talla 24", "Atoshopce color negro, talla 23", "Madden girl color durazno, talla 25", "Shoe land color negro, talla 24", "GUESS loven color blanco, talla 23", //Termina Productos Mujer 
+            //"Vans Old Skool color negro, talla 26", "York Team Polo Club color negro, talla 26", "Quirelli modelo 8602 color cafe, talla 26.5", "Zapato casual de piel para hombre color negro, talla 27.5", "Zapato Bordon Serraje color cafe, talla 27"};//Termina Productos Hombre
             
-            int precioProduct[] = {565, 620, 970, 700, 490,
-                                    600, 480, 865, 565,700, 
-                                    1270, 895, 760, 870, 960,
-                                    1600, 800, 950, 650, 500};
+            //int precioProduct[] = {565, 620, 970, 700, 490,
+                                   // 600, 480, 865, 565,700, 
+                                   // 1270, 895, 760, 870, 960,
+                                    //1600, 800, 950, 650, 500};
             
-            String productos[];
+            /*String productos[];
             int precio[];
             precio = new int[10];
             productos = new String[10];
@@ -370,34 +350,128 @@ public class Zapateria {
             el tipo de mensaje que es, ya que al tener titulo necesita un icono, por ejemplo advertencia, info, salir, aceptar etc. */    
     }
 
-    //asi se escribe una funcion
-    private static void pagar(int NumArray, int PreciosProductos[], String NombProductos[], double Total) {
-        
-        String ProductosPagar[];
-        ProductosPagar = new String[NumArray];
+    private static void pagar(int limite, int precio[], String CompraProductos[], double Total, int codigo) {
+        JFrame Pagar = new JFrame("Pagar");
+        Pagar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        Pagar.setLayout(null);
 
-        int NumProducts[];
-        NumProducts = new int[NumArray];
+        //JLabel.CENTER_ALIGNMENT;
 
-        int Precios[];
-        Precios = new int[NumArray];
-        JFrame pagar = new JFrame("Pasos para pagar");
+            JLabel Titulo = new JLabel("Productos seleccionados:\n");
+            Titulo.setHorizontalAlignment(JLabel.CENTER);
+            Titulo.setBounds(0, 30, 500, 30);
+            Titulo.setVisible(true);
+            Pagar.add(Titulo);
 
-            JTextField Mensaje = new JTextField("Soy un txt");
-            Mensaje.setBounds(100,100,100,30);
-            Mensaje.setVisible(true);
-
-            String Mensaje3 = "Son " + Integer.toString(NumArray) + " con total de " + String.valueOf(Total);
-            JLabel Mensaje2 = new JLabel(Mensaje3);
-            Mensaje2.setBounds(100,200,150,30);
-            Mensaje2.setVisible(true);
+            int altura = 60;
+            for (int i = 0; i < limite; i++) {
+                if (CompraProductos[i] != null && precio[i] != 0) {
+                    JLabel Products = new JLabel(CompraProductos[i] + " - Precio: " + precio[i]);
+                    Products.setHorizontalAlignment(JLabel.CENTER);
+                    Products.setBounds(0, altura, 500, 30);
+                    Products.setVisible(true);
+                    Pagar.add(Products);
+                    altura += 30;
+                }
+            }
             
-            //JOptionPane.showMessageDialog(null, Total + NumArray, "Pago", JOptionPane.CLOSED_OPTION);
+            String mensaje = "";
+            if (codigo == 277353 || codigo == 54321 ) {
+                Total = Total*0.9;
+                // Agregar el total al mensaje
+                mensaje = ("\nTienes descuento del 10%\nTotal: " + Total);
+            }else{
+                mensaje = ("\nTotal: " + Total);
+            }
 
-        pagar.add(Mensaje);
-        pagar.add(Mensaje2);
-        pagar.setSize(500,500);
-        pagar.setVisible(true);
+            JLabel lblTotal = new JLabel(mensaje);
+            lblTotal.setHorizontalAlignment(JLabel.CENTER);
+            lblTotal.setBounds(0, (altura += 30), 500, 30);
+            lblTotal.setVisible(true);
+            Pagar.add(lblTotal);
+
+
+            JLabel lblpagar = new JLabel("Elija metodo de Pago");
+            lblpagar.setHorizontalAlignment(JLabel.CENTER);
+            lblpagar.setBounds(0, (altura += 30), 500, 30);
+            lblpagar.setVisible(true);
+            Pagar.add(lblpagar);
+
+            JButton efectivo = new JButton("Efectivo");
+            efectivo.setBounds(140, (altura + 40), 100, 30);
+            efectivo.setVisible(true);
+            Pagar.add(efectivo);            
+
+            JButton Tarjeta = new JButton("Tarjeta");
+            Tarjeta.setBounds(260, (altura + 40), 100, 30);
+            Tarjeta.setVisible(true);
+            Pagar.add(Tarjeta);
+            
+            ActionListener Pagos = new ActionListener(){
+            
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // TODO Auto-generated method stub
+                    if (e.getSource() == Tarjeta) {
+                        Tarjeta();
+                    }else if (e.getSource() == efectivo) {
+                        
+                    }
+                }
+            };
+            efectivo.addActionListener(Pagos);
+            Tarjeta.addActionListener(Pagos);
+
+        Pagar.setSize(500,500);
+        Pagar.setVisible(true);
+    
+    }
+    private static void Tarjeta() {
+        
+        JFrame pagarTarjeta = new JFrame("Pasos para pagar");
+            pagarTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JProgressBar ProcesoPago = new JProgressBar(0,30000);
+            ProcesoPago.setPreferredSize(new Dimension(200, 30)); // Establecer el tamaño del JProgressBar con Dimension
+            ProcesoPago.setStringPainted(true);
+            ProcesoPago.setValue(0);
+
+            JButton pagarButton = new JButton("Pagar");
+            pagarButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // TODO Auto-generated method stub
+                    // Cuando se presiona el botón "Pagar", avanzar la barra de progreso al 100%
+                    for (int i = 0; i <= 30000; i++) {
+                        ProcesoPago.setValue(i);
+                        if (i == 30000) {
+                            JOptionPane.showConfirmDialog(null, "Productos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
+                        }
+                    }
+                    
+                }
+            });
+
+            JPanel panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+            panel.add(ProcesoPago, BorderLayout.CENTER); // Añadir el JProgressBar al panel
+            panel.add(pagarButton, BorderLayout.SOUTH); // Añadir el botón al panel
+
+            pagarTarjeta.getContentPane().setLayout(new BorderLayout());
+            pagarTarjeta.getContentPane().add(panel, BorderLayout.SOUTH);
+
+            pagarTarjeta.setSize(200, 150); // Ajustar el tamaño del JFrame
+            pagarTarjeta.setVisible(true);
     }
 
+    /*codigo para poner imagenes dentro de un frame
+     *  JPanel pabnel = new JPanel();
+
+                ImageIcon HuTao = new ImageIcon("/home/aya/Documentos/GitHub/Proyecto/src/IMG_0523.jpg");
+                JLabel imagen = new JLabel();
+                imagen.setBounds(10,80,300,300);
+                imagen.setIcon(new ImageIcon(HuTao.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH)));
+                pabnel.add(imagen);
+                pagarTarjeta.setContentPane(pabnel);
+     */
 }
