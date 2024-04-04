@@ -43,7 +43,7 @@ public class Zapateria {
                 caseNull();
                 opcion = "Salir";
             }else{
-                switch (opcion) {
+                switch(opcion) {
                     case "Ver catalogo":
     
                        opcion = (String) JOptionPane.showInputDialog(null,
@@ -51,12 +51,16 @@ public class Zapateria {
                         "Menu De Categorias",
                          JOptionPane.DEFAULT_OPTION, null, categorias,categorias); 
                         /*Menu desplagable de las categorias */
-    
-                        Catalogo(opcion, codigo);
-                        /*llamamos la funcion de zapateria donde tenemos el switch segun la accion*/
-                                  
-                        opcion ="Salir";
-    
+                        if(opcion != "" || opcion != null){
+                            
+                            Catalogo(opcion, codigo);
+                            /*llamamos la funcion de zapateria donde tenemos el switch segun la accion*/
+                        }else{
+                            
+                            caseNull();
+                            opcion ="Salir";
+                        }
+                        
                     break;
                     
                     case "Conoce tu talla":
