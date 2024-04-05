@@ -20,7 +20,7 @@ public class Zapateria {
         System.out.flush();
         //limpia los datos de la consola que vienen por defecto
 
-        String opcion = "";
+        String opcion;
         /*opcion para los menus */
         
         /*opcion para el control de las compras, pudiendo comprar un maximo */
@@ -79,28 +79,27 @@ public class Zapateria {
                         //System.out.println("Utiliza la regla que se te proporciona en el establecimiento");
                     
                         //System.out.println("tabla de tallas \n talla 1 \n talla 2\n talla 3\n"); //mostrar tabla de tallas de ninos
-                        if (Sexo == null|| Sexo == "") {
-                            caseNull();
-                            
-                        }else {
-                            if (Sexo.equals("Hombre")){
-            
-                                //System.out.println("Leon \n No ha hewcho\n La tabla"); 
-                                //muestra las tallas de hombre
-                                JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Hombre",0);
-                            } else if (Sexo.equals("Mujer")) {
-    
-                                //System.out.println("talla 1 \n talla 2\n talla 3"); 
-                                //muestra las tallas de mujer
-                                JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Mujer",0);
-                            }else{
-    
-                                //System.out.println("talla 1 \n talla 2\n talla 3"); 
-                                //muestra las tallas de infantes
-                                JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Infante",0);
+                            if (Sexo == null|| Sexo == "") {
+                                caseNull();
+                                
+                            }else {
+                                if (Sexo.equals("Hombre")){
+                
+                                    //System.out.println("Leon \n No ha hewcho\n La tabla"); 
+                                    //muestra las tallas de hombre
+                                    JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Hombre",0);
+                                } else if (Sexo.equals("Mujer")) {
+        
+                                    //System.out.println("talla 1 \n talla 2\n talla 3"); 
+                                    //muestra las tallas de mujer
+                                    JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Mujer",0);
+                                }else{
+        
+                                    //System.out.println("talla 1 \n talla 2\n talla 3"); 
+                                    //muestra las tallas de infantes
+                                    JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Infante",0);
+                                }
                             }
-                        }
-                            
         
                     break;
                    
@@ -114,11 +113,13 @@ public class Zapateria {
                              * de lo contrario realizara lo que se encuentra dentro del catch es decir la opcion por defectos
                              */
                             codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su codigo"));
-                            if (codigo == 277353 ||codigo ==54321){
-                                JOptionPane.showMessageDialog(null, "Codigo correcto");
-                            }else{
-                                JOptionPane.showMessageDialog(null, "Codigo invalido");
-                            }
+                               
+                                if (codigo == 277353 || codigo == 54321){
+                                    JOptionPane.showMessageDialog(null, "Codigo correcto");
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "Codigo invalido");
+                                }
+
                         } catch (Exception e) {
                             // TODO: handle exception
                             JOptionPane.showMessageDialog(null, "Tu codigo es invalido");
@@ -131,6 +132,8 @@ public class Zapateria {
                             JOptionPane.showMessageDialog(null, "Vuelva Pronto", "Mensaje de Salida", JOptionPane.INFORMATION_MESSAGE);
                             /*opcion de salir, termina el codigo con un mensaje de salida */
                     break;
+
+
                     default:
                         //JOptionPane.showMessageDialog(null,"Eres lo mas hermoso y bonito que me ha pasado en la vida amor\n te amo tanto y es enserio cuando lo digo y que eres mi princesa hermosa, preciosa, mi bb,\n mi todo mi amorcito\n TE AMOOOOOOOOOO!!!!!!!");
                         /*Dedicatoria a la novia de Aya --Te Amoooooooo--*/
@@ -323,10 +326,22 @@ public class Zapateria {
                     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
                     //dispose cierra la ventana, es decirla elimina para no consumir memoria
                     }else if (e.getSource() == Images) {
-                        verImagen();
+
+                        int IDImagen;
+                        for (int i = 0; i<limite; i++){
+                            if (Images[i].isSelected()){
+                                IDImagen = i;
+                                verImagen(IDImagen);
+                            }
+                        }
+                        
                     }
             }
         };
+
+        for(int i = 0; i<limite;i++){
+            Images[i].addActionListener(botones);
+        }
         aceptar.addActionListener(botones);
         cancelar.addActionListener(botones);
         
@@ -447,13 +462,22 @@ public class Zapateria {
             pagarTarjeta.setVisible(true);
     }
 
-    private static void verImagen() {
+    private static void verImagen(int IDImagen) {
+
+
+        String ruta = "/home/aya/Documentos/GitHub/Proyecto/src/Imagenes";
+
+        String Imagenes = {"0.jpeg","1.jpeg","2.jpeg","3.avif","4.jpeg",
+                            "5.jpg","6.jpg","7.jpeg","8.jpg","9.jpeg",
+                            "10.webp","11.jpeg","12.jpeg","13.jpg","14.webp",
+                            "15.avif","16.avif","17.webp","18.jpg","19.webp"};
 
         JFrame VerImagen = new JFrame("Imagen");
         VerImagen.setLayout(null);
+
             JPanel pabnel = new JPanel();
 
-            ImageIcon HuTao = new ImageIcon("/home/aya/Documentos/GitHub/Proyecto/src/IMG_0523.jpg");
+            ImageIcon HuTao = new ImageIcon(ruta + Imagenes[IDImagen]);
             JLabel imagen = new JLabel();
             imagen.setBounds(10,80,300,300);
             imagen.setIcon(new ImageIcon(HuTao.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH)));
@@ -462,5 +486,6 @@ public class Zapateria {
 
         VerImagen.setSize(400,400);
     }
+
 }
     
