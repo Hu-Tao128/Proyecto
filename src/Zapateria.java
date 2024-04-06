@@ -1,10 +1,19 @@
+/**
+ *
+* @author aya
+*/
+
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.util.Scanner;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTextField;
 
 public class Zapateria {
 
@@ -47,16 +57,17 @@ public class Zapateria {
                 switch(opcion) {
                     case "Ver catalogo":
     
-                       opcion = (String) JOptionPane.showInputDialog(null,
+                        opcion = (String) JOptionPane.showInputDialog(null,
                         "Eliga",
                         "Menu De Categorias",
-                         JOptionPane.DEFAULT_OPTION, null, categorias,categorias); 
+                        JOptionPane.DEFAULT_OPTION, null, categorias,categorias); 
                         /*Menu desplagable de las categorias */
 
                             if(opcion != "" || opcion != null){
                                 
                                 Catalogo(opcion, codigo);
                                 /*llamamos la funcion de catalogo donde tenemos el switch segun la accion*/
+                                opcion ="Salir";
                             }else{
                                 
                                 caseNull();
@@ -102,7 +113,7 @@ public class Zapateria {
                             }
         
                     break;
-                   
+                    
                     case "Canjear un codigo":
                         
                         /*Si la respuesta es si a tener un codigo de canje preguntara cual es y verificara 
@@ -110,10 +121,10 @@ public class Zapateria {
                         */
                         try {
                             /*Try como su nombre lo indica se refiere a que intentara hacer lo que esta dentro de las llaves
-                             * de lo contrario realizara lo que se encuentra dentro del catch es decir la opcion por defectos
-                             */
+                            * de lo contrario realizara lo que se encuentra dentro del catch es decir la opcion por defectos
+                            */
                             codigo = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su codigo"));
-                               
+                                
                                 if (codigo == 277353 || codigo == 54321){
                                     JOptionPane.showMessageDialog(null, "Codigo correcto");
                                 }else{
@@ -163,7 +174,7 @@ public class Zapateria {
             // Array de todos los nombres de los productos
 
         int precioProduct[] = {565, 620, 970, 700, 490,
-                                600, 480, 865, 565,700, 
+                                600, 480, 865, 565, 700, 
                                 1270, 895, 760, 870, 960,
                                 1600, 800, 950, 650, 500};
             // Array con los precios de todos los productos
@@ -180,12 +191,13 @@ public class Zapateria {
         //altura igual a cero para que no se acumula o provoque errores dentro del for
         JCheckBox caja[];
         caja = new JCheckBox[20];
-        JButton Images[];
-        Images = new JButton[20];
         int precio[];
         precio = new int[20];
         String CompraProductos[];
         CompraProductos = new String[20];
+
+        int inicio;
+        int finalCiclo;
 
             switch (opcioString) {
                 // el Switch me da control sobre las opcione que elige el usuario en el menu desplegable sobre que productos ver
@@ -194,31 +206,31 @@ public class Zapateria {
                     // cada caso va en String que corresponde a los datos del menu desplegable, son opciones unicas
                         for(int i = 0; i<5;i++){
                             /*Dentro del for vamos de 5 en 5 empezando desde cero porque son 5 articulos por categoria 
-                             *y los numeros de i se los asignaremos a los checkbox para que guarden el nombre y precio de cada uno 
-                             */
+                            *y los numeros de i se los asignaremos a los checkbox para que guarden el nombre y precio de cada uno 
+                            */
                             caja[i] = new JCheckBox(Products[i] + " Precio: " + precioProduct[i]);
-                            Images[i] = new JButton("Ver Imagen");
                             /*JCheckbox es la declaracion de un checkbox, donde le asignamos un nombre de variable, despes del 
-                             * igual utilzamos lo que es new JchechkBox para indicar que es un nuevo objeto o vista
-                             * y dentro del parentesis le damos el valor que queremos darle
-                             */
+                            * igual utilzamos lo que es new JchechkBox para indicar que es un nuevo objeto o vista
+                            * y dentro del parentesis le damos el valor que queremos darle
+                            */
                             altura += 30;
                             caja[i].setBounds(20,altura,500,30);
-                            Images[i].setBounds(520,altura,150,20);
                             /*setBounds se encarga de acomodar la vista u objerto en algun lado del Jframe o ventana
-                             * donde existen 4 valores, (x, y, ancho, largo) y acomodarlos como en un plano cartesiano
-                             * dandole valores a x, y para acomodarlos y darles un ancho y largo y que no choquen entre si 
-                             * o no se muestren completos los escritos
-                             */
+                            * donde existen 4 valores, (x, y, ancho, largo) y acomodarlos como en un plano cartesiano
+                            * dandole valores a x, y para acomodarlos y darles un ancho y largo y que no choquen entre si 
+                            * o no se muestren completos los escritos
+                            */
                             caja[i].setVisible(true);
                             /*setVisible se encarga de hacerlos visibles, ya que aveces falla y solo se ve el primero o uno a la vez */
                             f.add(caja[i]);
-                            f.add(Images[i]);
                             /*Con este ultimo agregamos nuestra caja, objeto o vista a la ventana con todos los valores que le dimos
-                             * por eso va al ultimo
-                             */
+                            * por eso va al ultimo
+                            */
+                            
                             contador +=1;
                         }
+                        inicio = 0;
+                        finalCiclo = 5;
                     break;
                     case "Niño":
                         for (int i = 5; i < 10; i++) {
@@ -229,6 +241,8 @@ public class Zapateria {
                             f.add(caja[i]);
                             contador +=1;
                         }
+                        inicio = 5;
+                        finalCiclo = 10;
                     break;
                     case "Mujer":
                         for(int i = 10; i<15;i++){
@@ -239,6 +253,8 @@ public class Zapateria {
                             f.add(caja[i]);
                             contador +=1;
                         }
+                        inicio = 10;
+                        finalCiclo = 15;
                     break;
                     case "Hombre":
                         for(int i = 15; i<20;i++){
@@ -249,23 +265,36 @@ public class Zapateria {
                             f.add(caja[i]);
                             contador +=1;
                         }
+                        inicio = 15;
+                        finalCiclo = 20;
                     break;
                     default:
                         for(int i = 0; i<20;i++){
+                            contador +=1;
                             caja[i] = new JCheckBox(Products[i] + " Precio: " + precioProduct[i]);
                             altura += 30;
                             caja[i].setBounds(20,altura,400,30);
                             caja[i].setVisible(true);
                             f.add(caja[i]);
-                            /*En caso de no elegir las otras opciones solo queda la de ver todos los productos, que nos muestra 
-                             * los 20 articulos que tenemoscon el mismo formato
-                             */
-                            contador +=1;
+                            if (contador % 5 == 0 && i < 19) {
+                                // Crear un JPanel como línea divisoria
+                                JPanel dividir = new JPanel();
+                                dividir.setBounds(20, altura + 32, 400, 2);
+                                dividir.setBackground(Color.BLACK); // Cambia el color de la línea divisora
+                                dividir.setVisible(true);
+                                f.add(dividir);
+
+                                altura += 4;// 4 porque al pasar el mouse no disminuye el tamano debido a los chkbx's
+                            }
                         }
+                        inicio = 0;
+                        finalCiclo = 20;
                     break;
             }
             
         final int limite = contador;
+        final int end = finalCiclo;
+        final int start = inicio;
 
         JCheckBox no = new JCheckBox("No Comprar Nada");   
         altura += 30;
@@ -288,6 +317,11 @@ public class Zapateria {
         //cancelar.addActionListener((ActionListener) this);
         f.add(cancelar);
 
+        JButton Imagenes = new JButton("Ver Galeria");
+        Imagenes.setBounds(545, altura += 60, 200, 50);
+        Imagenes.setVisible(true);
+        f.add(Imagenes);
+
         f.setSize(850,altura + 100);
         /*El tamano que tendra de nuetra ventana por default*/
         f.setVisible(true);
@@ -297,7 +331,7 @@ public class Zapateria {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+                
                 int cont = 0;
                 if (e.getSource() == aceptar){
 
@@ -325,23 +359,13 @@ public class Zapateria {
                     f.dispose();
                     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
                     //dispose cierra la ventana, es decirla elimina para no consumir memoria
-                    }else if (e.getSource() == Images) {
-
-                        int IDImagen;
-                        for (int i = 0; i<limite; i++){
-                            if (Images[i].isSelected()){
-                                IDImagen = i;
-                                verImagen(IDImagen);
-                            }
-                        }
-                        
+                    } else if (e.getSource() == Imagenes) {
+                        verImagen(start, end, Products);
                     }
             }
         };
 
-        for(int i = 0; i<limite;i++){
-            Images[i].addActionListener(botones);
-        }
+        Imagenes.addActionListener(botones);
         aceptar.addActionListener(botones);
         cancelar.addActionListener(botones);
         
@@ -427,65 +451,133 @@ public class Zapateria {
     private static void Tarjeta() {
         
         JFrame pagarTarjeta = new JFrame("Pasos para pagar");
-            pagarTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pagarTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            JProgressBar ProcesoPago = new JProgressBar(0,30000);
-            ProcesoPago.setPreferredSize(new Dimension(200, 30)); // Establecer el tamaño del JProgressBar con Dimension
-            ProcesoPago.setStringPainted(true);
-            ProcesoPago.setValue(0);
+        // Crear un panel para el formulario
+        JPanel formularioPanel = new JPanel();
+        formularioPanel.setLayout(new GridLayout(3, 2)); // Usamos GridLayout para organizar los campos del formulario
 
-            JButton pagarButton = new JButton("Pagar");
+        
+        JLabel lblnombre = new JLabel("Nombre: ");
+        formularioPanel.add(lblnombre);
+        JTextField txtnombre = new JTextField();
+        formularioPanel.add(txtnombre);
+        
+        JLabel lblNumTarheta = new JLabel("Numero de Tarjeta: ");
+        formularioPanel.add(lblNumTarheta);
+        JTextField NumTarheta = new JTextField();
+        formularioPanel.add(NumTarheta);
+        
+        JLabel lblCVC = new JLabel("Ingrese CVC: ");
+        formularioPanel.add(lblCVC);
+        JTextField CVC = new JTextField();
+        //CVC.se
+        formularioPanel.add(CVC);
+
+        // Crear un panel para contener el botón de pagar y la barra de progreso
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        // Agregar el panel del formulario en la parte superior del panel principal
+        panel.add(formularioPanel, BorderLayout.NORTH);
+
+        // Crear una barra de progreso y un botón de pagar
+        JProgressBar ProcesoPago = new JProgressBar(0,100);
+        ProcesoPago.setPreferredSize(new Dimension(200, 30)); // Establecer el tamaño del JProgressBar con Dimension
+        ProcesoPago.setStringPainted(true);
+        ProcesoPago.setValue(0);
+        JButton pagarButton = new JButton("Pagar");
+
             pagarButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    // Cuando se presiona el botón "Pagar", avanzar la barra de progreso al 100%
-                    for (int i = 0; i <= 30000; i++) {
-                        ProcesoPago.setValue(i);
-                        if (i == 30000) {
-                            JOptionPane.showConfirmDialog(null, "Productos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
-                        }
-                    }
+
+                    String texto1 = txtnombre.getText();
+                    String Num1 = NumTarheta.getText();
                     
+                    if (!texto1.isEmpty() && !Num1.isEmpty()) {
+                        // Cuando se presiona el botón "Pagar", avanzar la barra de progreso al 100%
+                        for (int i = 0; i <= 30000; i++) {
+                            ProcesoPago.setValue(i);
+                            if (i == 30000) {
+                                JOptionPane.showConfirmDialog(null, "Verificado\nProductos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
+                            }
+                        }
+                    }else{
+                        JOptionPane.showConfirmDialog(null, "Verifica los Campos del Formulario Por Favor", "Formulario Incompleto", JOptionPane.CLOSED_OPTION);
+                    }
                 }
             });
 
-            JPanel panel = new JPanel();
-            panel.setLayout(new BorderLayout());
-            panel.add(ProcesoPago, BorderLayout.CENTER); // Añadir el JProgressBar al panel
-            panel.add(pagarButton, BorderLayout.SOUTH); // Añadir el botón al panel
+        // Agregar la barra de progreso y el botón de pagar al panel principal
+        panel.add(ProcesoPago, BorderLayout.CENTER);
+        panel.add(pagarButton, BorderLayout.SOUTH);
 
-            pagarTarjeta.getContentPane().setLayout(new BorderLayout());
-            pagarTarjeta.getContentPane().add(panel, BorderLayout.SOUTH);
+        // Agregar el panel principal en el contenedor del frame
+        pagarTarjeta.getContentPane().add(panel);
 
-            pagarTarjeta.setSize(200, 150); // Ajustar el tamaño del JFrame
-            pagarTarjeta.setVisible(true);
+        // Ajustar el tamaño y hacer visible el frame
+        pagarTarjeta.setSize(300, 200);
+        pagarTarjeta.setVisible(true);
     }
 
-    private static void verImagen(int IDImagen) {
+    private static void verImagen(int inicio, int limite, String productos[] ) {
 
+        //String ruta = "/home/aya/Documentos/GitHub/Proyecto/src/Imagenes/";
 
-        String ruta = "/home/aya/Documentos/GitHub/Proyecto/src/Imagenes";
-
-        String Imagenes = {"0.jpeg","1.jpeg","2.jpeg","3.avif","4.jpeg",
-                            "5.jpg","6.jpg","7.jpeg","8.jpg","9.jpeg",
-                            "10.webp","11.jpeg","12.jpeg","13.jpg","14.webp",
-                            "15.avif","16.avif","17.webp","18.jpg","19.webp"};
+        String Imagenes[] = {"0.jpeg", "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg",
+                            "5.jpeg", "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg",
+                            "10.jpeg", "11.jpeg", "12.jpeg", "13.jpeg", "14.jpeg",
+                            "15.jpeg", "16.jpeg", "17.jpeg", "18.jpeg", "19.jpeg" };
 
         JFrame VerImagen = new JFrame("Imagen");
         VerImagen.setLayout(null);
 
             JPanel pabnel = new JPanel();
 
-            ImageIcon HuTao = new ImageIcon(ruta + Imagenes[IDImagen]);
-            JLabel imagen = new JLabel();
-            imagen.setBounds(10,80,300,300);
-            imagen.setIcon(new ImageIcon(HuTao.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH)));
-            pabnel.add(imagen);
+            int x = 10;
+            int y = 220;
+            //int index;
+
+            for (int i = inicio; i < limite; i++){
+                ImageIcon HuTao = new ImageIcon("/home/aya/Documentos/GitHub/Proyecto/src/Imagenes/" + Imagenes[i]);
+                JLabel imagen = new JLabel();
+
+                imagen.setBounds(x,y,200,200);
+                imagen.setIcon(new ImageIcon(HuTao.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+                
+                final int index = i;
+                imagen.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {//cuando el mouse esta dentro de los limites de la imagen
+                        // TODO Auto-generated method stub
+                        imagen.setBorder(BorderFactory.createLineBorder(Color.RED));
+                        //BorderFactory es una clase en Java Swing que proporciona métodos estáticos para crear bordes 
+                        imagen.setBorder(BorderFactory.createTitledBorder(productos[index]));
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) { // cuando el mouse sale de los limites, para dejarlo igual que antes
+                        // TODO Auto-generated method stub
+                        imagen.setBorder(null); //elimina el borde 
+                    }
+                });
+                pabnel.add(imagen);
+
+                x += 250;
+
+            }
+
             VerImagen.setContentPane(pabnel);
 
-        VerImagen.setSize(400,400);
+            if (inicio == 0 && limite == 20) {
+                y = 810;
+            }
+
+        VerImagen.setSize(1070,y + 50);
+        VerImagen.setVisible(true);
     }
 
 }
-    
