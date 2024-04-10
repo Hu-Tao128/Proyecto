@@ -400,7 +400,7 @@ public class Zapateria {
             if (codigo == 277353 || codigo == 54321 ) {
                 Total = Total*0.9;
                 // Agregar el total al mensaje
-                mensaje = ("\nTienes descuento del 10%\nTotal: " + Total);
+                mensaje = ("\nTienes descuento del 10% \nTotal: " + Total);
             }else{
                 mensaje = ("\nTotal: " + Total);
             }
@@ -427,7 +427,8 @@ public class Zapateria {
             Tarjeta.setBounds(260, (altura + 40), 100, 30);
             Tarjeta.setVisible(true);
             Pagar.add(Tarjeta);
-            
+
+            final Double TTotal = Total;
             ActionListener Pagos = new ActionListener(){
             
                 @Override
@@ -436,7 +437,7 @@ public class Zapateria {
                     if (e.getSource() == Tarjeta) {
                         Tarjeta();
                     }else if (e.getSource() == efectivo) {
-                        
+                        Efectivo(TTotal);
                     }
                 }
             };
@@ -458,7 +459,7 @@ public class Zapateria {
         formularioPanel.setLayout(new GridLayout(3, 2)); // Usamos GridLayout para organizar los campos del formulario
 
         
-        JLabel lblnombre = new JLabel("Nombre: ");
+        JLabel lblnombre = new JLabel("Nombre Titular: ");
         formularioPanel.add(lblnombre);
         JTextField txtnombre = new JTextField();
         formularioPanel.add(txtnombre);
@@ -495,15 +496,38 @@ public class Zapateria {
 
                     String texto1 = txtnombre.getText();
                     String Num1 = NumTarheta.getText();
+                    String CVC = lblCVC.getText();
                     
-                    if (!texto1.isEmpty() && !Num1.isEmpty()) {
-                        // Cuando se presiona el botón "Pagar", avanzar la barra de progreso al 100%
-                        for (int i = 0; i <= 30000; i++) {
-                            ProcesoPago.setValue(i);
-                            if (i == 30000) {
-                                JOptionPane.showConfirmDialog(null, "Verificado\nProductos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
+                    if (!texto1.isEmpty() && !Num1.isEmpty() && !CVC.isEmpty()) {
+
+                        try {
+                            
+                            //Double ValidCVC = (Math.floor(Math.log10(Double.parseDouble(CVC)) + 1));
+                            //Double ValidNUmTarjeta = (Math.floor(Math.log10(Double.parseDouble(Num1)) + 1));
+                            
+                            int ValidCVC = (int) (Math.log10(Double.parseDouble(CVC)) + 1);
+                            int ValidNUmTarjeta = (int) (Math.log10(Double.parseDouble(Num1)) + 1);
+                            
+                            if (ValidCVC == 3 && ValidNUmTarjeta == 16) {
+                                
+                                for (int i = 0; i <= 30000; i++) {
+                                    ProcesoPago.setValue(i);
+                                    if (i == 30000) {
+                                        JOptionPane.showConfirmDialog(null, "Verificado\nProductos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
+                                    }
+                                }
+
+                            }else{
+
                             }
+                        } catch (Exception exception) {
+                            // TODO: handle exception
+
+                            JOptionPane.showConfirmDialog(null, "Verifica los Campos del Formulario Por Favor \n Numero de Tarjeta o CVC estan Incompletos o no son validos", "Verificar Datos", JOptionPane.CLOSED_OPTION);
                         }
+                        
+                        // Cuando se presiona el botón "Pagar", avanzar la barra de progreso al 100%
+                        
                     }else{
                         JOptionPane.showConfirmDialog(null, "Verifica los Campos del Formulario Por Favor", "Formulario Incompleto", JOptionPane.CLOSED_OPTION);
                     }
@@ -520,6 +544,72 @@ public class Zapateria {
         // Ajustar el tamaño y hacer visible el frame
         pagarTarjeta.setSize(300, 200);
         pagarTarjeta.setVisible(true);
+    }
+
+    private static void Efectivo(Double Total){
+
+        JFrame PagoEfectivo = new JFrame("Pago en Efectivo");
+        PagoEfectivo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Si cierra la pagina se temina el codigo o ejecucion
+        PagoEfectivo.setLayout(null);
+
+
+            JLabel lblmensaje1 = new JLabel("Monto de Pago: ");
+            lblmensaje1.setBounds(10, 70, 150, 30);
+            PagoEfectivo.add(lblmensaje1);
+
+            JTextField montoPago = new JTextField();
+            montoPago.setBounds(150, 70, 50, 30);
+            PagoEfectivo.add(montoPago);
+
+            JLabel MensajePago = new JLabel("Su Total es: " + Total);
+            MensajePago.setBounds(150, 150, 200, 30);
+            PagoEfectivo.add(MensajePago);
+
+            JButton Pagar = new JButton("Pagar");
+            Pagar.setBounds(150, 200, 150, 30);
+            PagoEfectivo.add(Pagar);
+
+            JLabel mensajeTotal = new JLabel();
+            mensajeTotal.setBounds(100, 250, 300, 30);
+            mensajeTotal.setVisible(false);
+            mensajeTotal.setHorizontalAlignment(JLabel.CENTER);
+            PagoEfectivo.add(mensajeTotal);
+
+            ActionListener calculadora = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // TODO Auto-generated method stub
+                    final String textfield = montoPago.getText();
+                    if (!textfield.isEmpty()) {
+                        try {
+                            Double Monto = Double.parseDouble(textfield);
+                            Double resultado = Monto - Total;
+
+                            if(resultado == 0){
+                                mensajeTotal.setText("Pago Completo, Buen Dia :)");
+                                mensajeTotal.setVisible(true);
+
+                            }else if (resultado > 0) {
+                                mensajeTotal.setText("Tu cambio es: " + Monto + ", Buen Dia :)");
+                                mensajeTotal.setVisible(true);
+                            }else{
+                                mensajeTotal.setText("Saldo insuficiente :(");
+                                mensajeTotal.setVisible(true);
+                            }
+                            
+                        } catch (Exception excxepcion) {
+                            // TODO: handle exception
+                            JOptionPane.showMessageDialog(Pagar, "Datos Incorrectos, use numeros por favor", "Mensaje Error", JOptionPane.OK_OPTION, null);
+                        }
+                    }
+                }
+            }; 
+
+            Pagar.addActionListener(calculadora);
+        PagoEfectivo.setVisible(true);
+        PagoEfectivo.setSize(500, 500);
+
     }
 
     private static void verImagen(int inicio, int limite, String productos[] ) {
