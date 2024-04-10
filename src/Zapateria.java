@@ -1,5 +1,5 @@
 /**
- *
+*
 * @author aya
 */
 
@@ -146,8 +146,6 @@ public class Zapateria {
 
 
                     default:
-                        //JOptionPane.showMessageDialog(null,"Eres lo mas hermoso y bonito que me ha pasado en la vida amor\n te amo tanto y es enserio cuando lo digo y que eres mi princesa hermosa, preciosa, mi bb,\n mi todo mi amorcito\n TE AMOOOOOOOOOO!!!!!!!");
-                        /*Dedicatoria a la novia de Aya --Te Amoooooooo--*/
                     break;
                 }    
             }
@@ -227,7 +225,6 @@ public class Zapateria {
                             * por eso va al ultimo
                             */
                             
-                            contador +=1;
                         }
                         inicio = 0;
                         finalCiclo = 5;
@@ -239,7 +236,6 @@ public class Zapateria {
                             caja[i].setBounds(20,altura,500,30);
                             caja[i].setVisible(true);
                             f.add(caja[i]);
-                            contador +=1;
                         }
                         inicio = 5;
                         finalCiclo = 10;
@@ -251,7 +247,6 @@ public class Zapateria {
                             caja[i].setBounds(20,altura,500,30);
                             caja[i].setVisible(true);
                             f.add(caja[i]);
-                            contador +=1;
                         }
                         inicio = 10;
                         finalCiclo = 15;
@@ -263,7 +258,6 @@ public class Zapateria {
                             caja[i].setBounds(20,altura,500,30);
                             caja[i].setVisible(true);
                             f.add(caja[i]);
-                            contador +=1;
                         }
                         inicio = 15;
                         finalCiclo = 20;
@@ -292,7 +286,6 @@ public class Zapateria {
                     break;
             }
             
-        final int limite = contador;
         final int end = finalCiclo;
         final int start = inicio;
 
@@ -340,7 +333,7 @@ public class Zapateria {
                     }else {
 
                         Double Total = 0.0;
-                        for (int i = 0; i<limite; i++){
+                        for (int i = start; i < end; i++){
                             if (caja[i].isSelected() && cont<10){
                                 CompraProductos[i] = Products[i];
                                 precio[i] = precioProduct[i];
@@ -350,7 +343,7 @@ public class Zapateria {
                         }
 
 
-                        pagar(limite, precio, CompraProductos, Total, codigo);
+                        pagar(start, end, precio, CompraProductos, Total, codigo);
 
                     }
 
@@ -371,7 +364,7 @@ public class Zapateria {
         
     }
 
-    private static void pagar(int limite, int precio[], String CompraProductos[], double Total, int codigo) {
+    private static void pagar(int inicio, int end, int precio[], String CompraProductos[], double Total, int codigo) {
         JFrame Pagar = new JFrame("Pagar");
         Pagar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
         Pagar.setLayout(null);
@@ -385,7 +378,7 @@ public class Zapateria {
             Pagar.add(Titulo);
 
             int altura = 60;
-            for (int i = 0; i < limite; i++) {
+            for (int i = inicio; i < end; i++) {
                 if (CompraProductos[i] != null && precio[i] != 0) {
                     JLabel Products = new JLabel(CompraProductos[i] + " - Precio: " + precio[i]);
                     Products.setHorizontalAlignment(JLabel.CENTER);
@@ -508,7 +501,7 @@ public class Zapateria {
                             int ValidCVC = (int) (Math.log10(Double.parseDouble(CVC)) + 1);
                             int ValidNUmTarjeta = (int) (Math.log10(Double.parseDouble(Num1)) + 1);
                             
-                            if (ValidCVC == 3 && ValidNUmTarjeta == 16) {
+                            if (ValidCVC > 3 && ValidNUmTarjeta > 16) {
                                 
                                 for (int i = 0; i <= 30000; i++) {
                                     ProcesoPago.setValue(i);
