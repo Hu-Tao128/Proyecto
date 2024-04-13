@@ -90,27 +90,39 @@ public class Zapateria {
                         //System.out.println("Utiliza la regla que se te proporciona en el establecimiento");
                     
                         //System.out.println("tabla de tallas \n talla 1 \n talla 2\n talla 3\n"); //mostrar tabla de tallas de ninos
-                            if (Sexo == null|| Sexo == "") {
-                                caseNull();
-                                
-                            }else {
-                                if (Sexo.equals("Hombre")){
-                
-                                    //System.out.println("Leon \n No ha hewcho\n La tabla"); 
-                                    //muestra las tallas de hombre
-                                    JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Hombre",0);
-                                } else if (Sexo.equals("Mujer")) {
-        
-                                    //System.out.println("talla 1 \n talla 2\n talla 3"); 
-                                    //muestra las tallas de mujer
-                                    JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Mujer",0);
-                                }else{
-        
-                                    //System.out.println("talla 1 \n talla 2\n talla 3"); 
-                                    //muestra las tallas de infantes
-                                    JOptionPane.showMessageDialog(null, "Aqui van los datos que va a hacer el miguel", "Talla Infante",0);
-                                }
-                            }
+                        if (Sexo.equals("Hombre")) {
+                            // Muestra las tallas de zapatos para hombre
+                            String mensaje = "<html><div style='text-align:center;'>" +
+                                             "<table border='1' style='margin:auto;'>" +
+                                             "<tr><th>CM</th><th>USA</th><th>MEX</th><th>EUR</th></tr>" +
+                                             "<tr><td>25</td><td>7</td><td>6.5</td><td>40</td></tr>" +
+                                             "<tr><td>25.5</td><td>7.5</td><td>7</td><td>40.5</td></tr>" +
+                                             "<tr><td>26</td><td>8</td><td>7.5</td><td>41</td></tr>" +
+                                             "</table></div></html>";
+                            JOptionPane.showMessageDialog(null, mensaje, "Tallas de Zapatos para Hombre", JOptionPane.PLAIN_MESSAGE);
+                        
+                        } else if (Sexo.equals("Mujer")) {
+                            // Muestra las tallas de zapatos para mujer
+                            String mensaje = "<html><div style='text-align:center;'>" +
+                                             "<table border='1' style='margin:auto;'>" +
+                                             "<tr><th>CM</th><th>USA</th><th>MEX</th><th>EUR</th></tr>" +
+                                             "<tr><td>22.5</td><td>5</td><td>4</td><td>35</td></tr>" +
+                                             "<tr><td>23</td><td>5.5</td><td>4.5</td><td>35.5</td></tr>" +
+                                             "<tr><td>23.5</td><td>6</td><td>5</td><td>36</td></tr>" +
+                                             "</table></div></html>";
+                            JOptionPane.showMessageDialog(null, mensaje, "Tallas de Zapatos para Mujer", JOptionPane.PLAIN_MESSAGE);
+                        
+                        } else {
+                            // Muestra las tallas de zapatos para infantes
+                            String mensaje = "<html><div style='text-align:center;'>" +
+                                             "<table border='1' style='margin:auto;'>" +
+                                             "<tr><th>CM</th><th>USA</th><th>MEX</th><th>EUR</th></tr>" +
+                                             "<tr><td>12.5</td><td>5C</td><td>4.5C</td><td>21</td></tr>" +
+                                             "<tr><td>13</td><td>5.5C</td><td>5C</td><td>22</td></tr>" +
+                                             "<tr><td>13.5</td><td>6C</td><td>5.5C</td><td>22.5</td></tr>" +
+                                             "</table></div></html>";
+                            JOptionPane.showMessageDialog(null, mensaje, "Tallas de Zapatos para Infantes", JOptionPane.PLAIN_MESSAGE);
+                        }
         
                     break;
                     
