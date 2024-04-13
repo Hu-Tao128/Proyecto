@@ -99,29 +99,30 @@ public class Zapateria {
                                              "<tr><td>25.5</td><td>7.5</td><td>7</td><td>40.5</td></tr>" +
                                              "<tr><td>26</td><td>8</td><td>7.5</td><td>41</td></tr>" +
                                              "</table></div></html>";
-                            JOptionPane.showMessageDialog(null, mensaje, "Tallas de Zapatos para Hombre", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showMessageDialog(null, new JLabel(mensaje, JLabel.CENTER), "Tallas de Zapatos para Hombre", JOptionPane.PLAIN_MESSAGE);
                         
                         } else if (Sexo.equals("Mujer")) {
                             // Muestra las tallas de zapatos para mujer
                             String mensaje = "<html><div style='text-align:center;'>" +
                                              "<table border='1' style='margin:auto;'>" +
-                                             "<tr><th>CM</th><th>USA</th><th>MEX</th><th>EUR</th></tr>" +
-                                             "<tr><td>22.5</td><td>5</td><td>4</td><td>35</td></tr>" +
-                                             "<tr><td>23</td><td>5.5</td><td>4.5</td><td>35.5</td></tr>" +
-                                             "<tr><td>23.5</td><td>6</td><td>5</td><td>36</td></tr>" +
+                                             "<tr><th>CM</th><th>USA</th><th>MEX</th></tr>" +
+                                             "<tr><td>23</td><td>36</td><td>23</td></tr>" +
+                                             "<tr><td>24</td><td>37,5</td><td>24</td></tr>" +
+                                             "<tr><td>25</td><td>39</td><td>25</td></tr>" +
                                              "</table></div></html>";
-                            JOptionPane.showMessageDialog(null, mensaje, "Tallas de Zapatos para Mujer", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showMessageDialog(null, new JLabel(mensaje, JLabel.CENTER), "Tallas de Zapatos para Mujer", JOptionPane.PLAIN_MESSAGE);
                         
                         } else {
                             // Muestra las tallas de zapatos para infantes
                             String mensaje = "<html><div style='text-align:center;'>" +
                                              "<table border='1' style='margin:auto;'>" +
-                                             "<tr><th>CM</th><th>USA</th><th>MEX</th><th>EUR</th></tr>" +
-                                             "<tr><td>12.5</td><td>5C</td><td>4.5C</td><td>21</td></tr>" +
-                                             "<tr><td>13</td><td>5.5C</td><td>5C</td><td>22</td></tr>" +
-                                             "<tr><td>13.5</td><td>6C</td><td>5.5C</td><td>22.5</td></tr>" +
+                                             "<tr><th>CM</th><th>USA</th><th>MEX</th></tr>" +
+                                             "<tr><td>23</td><td>2K</td><td>8</td></tr>" +
+                                             "<tr><td>24</td><td>3K</td><td>9</td></tr>" +
+                                             "<tr><td>25</td><td>4K</td><td>10</td></tr>" +
+                                             "<tr><td>12,2</td><td>5,5K</td><td>11</td></tr>" +
                                              "</table></div></html>";
-                            JOptionPane.showMessageDialog(null, mensaje, "Tallas de Zapatos para Infantes", JOptionPane.PLAIN_MESSAGE);
+                            JOptionPane.showMessageDialog(null, new JLabel(mensaje, JLabel.CENTER), "Tallas de Zapatos para Infantes", JOptionPane.PLAIN_MESSAGE);
                         }
         
                     break;
@@ -596,7 +597,7 @@ public class Zapateria {
                                 mensajeTotal.setVisible(true);
 
                             }else if (resultado > 0) {
-                                mensajeTotal.setText("Tu cambio es: " + Monto + ", Buen Dia :)");
+                                mensajeTotal.setText("Tu cambio es: " + resultado + ", Buen Dia :)");
                                 mensajeTotal.setVisible(true);
                             }else{
                                 mensajeTotal.setText("Saldo insuficiente :(");
@@ -611,15 +612,13 @@ public class Zapateria {
                 }
             }; 
 
-            Pagar.addActionListener(calculadora);
+        Pagar.addActionListener(calculadora);
         PagoEfectivo.setVisible(true);
         PagoEfectivo.setSize(500, 500);
 
     }
 
     private static void verImagen(int inicio, int limite, String productos[] ) {
-
-        //String ruta = "/home/aya/Documentos/GitHub/Proyecto/src/Imagenes/";
 
         String Imagenes[] = {"0.jpeg", "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg",
                             "5.jpeg", "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg",
