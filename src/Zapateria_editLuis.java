@@ -3,6 +3,8 @@
 * @author aya
 */
 
+import java.util.Scanner;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,8 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
-public class Zapateria {
-
+public class Zapateria_editLuis {
+    
     public static void main(String[] args) {
         System.out.flush();
         //limpia los datos de la consola que vienen por defecto
@@ -36,10 +38,16 @@ public class Zapateria {
         /*opcion para el control de las compras, pudiendo comprar un maximo */
         int codigo = 0;//
 
+        String nombre1 = "";
+        int celular1 = 0;
+        String direccion1 = "";
+
         String categorias[] = {"Niña","Niño","Mujer","Hombre","Ver todos los productos"};
         /*Array con la categorias, estas van en el menu desplegable */
-        String opciones[] = {"Ver catalogo","Conoce tu talla","Canjear un codigo","Salir"};
+        String opciones[] = {"Ver catalogo","Conoce tu talla","Canjear un codigo","Introduce tus datos","Salir"};
         /*Array con las opciones del menu principal, igual mostrarlas en el menu desplegable */
+        
+       
 
 
         do{
@@ -53,7 +61,6 @@ public class Zapateria {
 
                 caseNull();
                 opcion = "Salir";
-
             }else{
                 switch(opcion) {
                     case "Ver catalogo":
@@ -66,7 +73,7 @@ public class Zapateria {
 
                             if(opcion != "" || opcion != null){
                                 
-                                Catalogo(opcion, codigo);
+                                Catalogo(opcion, codigo, nombre1, direccion1, celular1);
                                 /*llamamos la funcion de catalogo donde tenemos el switch segun la accion*/
                                 opcion ="Salir";
                             }else{
@@ -82,11 +89,11 @@ public class Zapateria {
                         //System.out.println("Antes de comenzar indique si es hombre, mujer o Infante (H/M/I)");
                         //String Sexo = respuesta.next();
                         /*Mostrara una tabla segun sea el sexo del cliente o un infante */
-                        String sexos[] = {"Hombre", "Mujer", "Infante"};
+                        String data[] = {"Hombre", "Mujer", "Infante"};
                         String Sexo = (String) JOptionPane.showInputDialog(null, 
                         "Seleccione el catalogo que busca\n",
                         "Conoce tu talla", 
-                        JOptionPane.DEFAULT_OPTION, null, sexos, sexos);
+                        JOptionPane.DEFAULT_OPTION, null, data, data);
     
                         //System.out.println("Utiliza la regla que se te proporciona en el establecimiento");
                     
@@ -152,6 +159,16 @@ public class Zapateria {
                         }
     
                     break;
+
+                    case "Introduce tus datos":
+
+                    nombre1 = (JOptionPane.showInputDialog(null, "Ingrese su nombre"));
+
+                    celular1 = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su celular"));
+
+                    direccion1 = (JOptionPane.showInputDialog(null, "Ingrese su direccion"));
+                
+                    break;
     
                     case "Salir":
                             JOptionPane.showMessageDialog(null, "Vuelva Pronto", "Mensaje de Salida", JOptionPane.INFORMATION_MESSAGE);
@@ -169,6 +186,11 @@ public class Zapateria {
         
     }
 
+    private static int String(String showInputDialog) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'String'");
+    }
+
     //asi se escribe una funcion
     private static void caseNull() {
         JOptionPane.showMessageDialog(null, "Vuelva Pronto", "Adios Usuario", JOptionPane.CLOSED_OPTION);
@@ -177,7 +199,7 @@ public class Zapateria {
             el tipo de mensaje que es, ya que al tener titulo necesita un icono, por ejemplo advertencia, info, salir, aceptar etc. */    
     }
 
-    private static void Catalogo(String opcioString, int codigo){
+    private static void Catalogo(String opcioString, int codigo, String nombre1, String direccion1, int celular1){
 
         String Products[] = {"Zapatos Shein color rosa, talla 8", "Sadak Huarache frozen con tacon, talla 9", "Zapatos shein color negro de vestir, talla 9", "Tenis de moda girls attitude color rosa, talla 8"," Tenis Nike Court Borought color rosa, talla 10",/*Termina Productos Nina */ 
             "Nautica Spinnaker Plebbed plano color blanco, talla 9", "Landhiker color blanco, talla 10", "Marvel botines de spiderman talla 9", "Bruno Marc zappatos Oxford de vestir, talla 9", "Tenis casual para niño Rokino Modelo 3186, talla 11", /*Termina Productos Nino */
@@ -281,13 +303,13 @@ public class Zapateria {
                             contador +=1;
                             caja[i] = new JCheckBox(Products[i] + " Precio: " + precioProduct[i]);
                             altura += 30;
-                            caja[i].setBounds(20,altura,500,30);
+                            caja[i].setBounds(20,altura,400,30);
                             caja[i].setVisible(true);
                             f.add(caja[i]);
                             if (contador % 5 == 0 && i < 19) {
                                 // Crear un JPanel como línea divisoria
                                 JPanel dividir = new JPanel();
-                                dividir.setBounds(20, altura + 32, 500, 2);
+                                dividir.setBounds(20, altura + 32, 400, 2);
                                 dividir.setBackground(Color.BLACK); // Cambia el color de la línea divisora
                                 dividir.setVisible(true);
                                 f.add(dividir);
@@ -356,11 +378,8 @@ public class Zapateria {
                             }
                         }
 
-                        if (cont != 0) {
-                            pagar(start, end, precio, CompraProductos, Total, codigo); 
-                        }else{
-                            JOptionPane.showMessageDialog(null, "No has seleccionado nada, por favor selecciona un producto", "Productos sin seleccionar", 0);
-                        }
+
+                        pagar(start, end, precio, CompraProductos, Total, codigo, nombre1, direccion1, celular1);
 
                     }
 
@@ -381,7 +400,7 @@ public class Zapateria {
         
     }
 
-    private static void pagar(int inicio, int end, int precio[], String CompraProductos[], double Total, int codigo) {
+    private static void pagar(int inicio, int end, int precio[], String CompraProductos[], double Total, int codigo, String nombre1, String direccion1, int celular1) {
         JFrame Pagar = new JFrame("Pagar");
         Pagar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
         Pagar.setLayout(null);
@@ -390,7 +409,7 @@ public class Zapateria {
 
             JLabel Titulo = new JLabel("Productos seleccionados:\n");
             Titulo.setHorizontalAlignment(JLabel.CENTER);
-            Titulo.setBounds(0, 30, 550, 30);
+            Titulo.setBounds(0, 30, 500, 30);
             Titulo.setVisible(true);
             Pagar.add(Titulo);
 
@@ -399,7 +418,7 @@ public class Zapateria {
                 if (CompraProductos[i] != null && precio[i] != 0) {
                     JLabel Products = new JLabel(CompraProductos[i] + " - Precio: " + precio[i]);
                     Products.setHorizontalAlignment(JLabel.CENTER);
-                    Products.setBounds(0, altura, 600, 30);
+                    Products.setBounds(0, altura, 500, 30);
                     Products.setVisible(true);
                     Pagar.add(Products);
                     altura += 30;
@@ -415,6 +434,10 @@ public class Zapateria {
                 mensaje = ("\nTotal: " + Total);
             }
 
+            String mensajeNombre = "Nombre del comprador: " + nombre1;
+            String mensajeDireccion = "Direccion a enviar el producto a: " + direccion1;
+            String mensajeCelular = "Llamaremos a este numero: " + celular1;
+
             JLabel lblTotal = new JLabel(mensaje);
             lblTotal.setHorizontalAlignment(JLabel.CENTER);
             lblTotal.setBounds(0, (altura += 30), 500, 30);
@@ -422,19 +445,37 @@ public class Zapateria {
             Pagar.add(lblTotal);
 
 
+            JLabel lblnombre = new JLabel(mensajeNombre);
+            lblnombre.setHorizontalAlignment(JLabel.CENTER);
+            lblnombre.setBounds(0, (altura += 40), 500, 30);
+            lblnombre.setVisible(true);
+            Pagar.add(lblnombre);
+
+            JLabel lbldirreccion = new JLabel(mensajeDireccion);
+            lbldirreccion.setHorizontalAlignment(JLabel.CENTER);
+            lbldirreccion.setBounds(0, (altura += 45), 500, 30);
+            lbldirreccion.setVisible(true);
+            Pagar.add(lbldirreccion);
+
+            JLabel lblcelular = new JLabel(mensajeCelular);
+            lblcelular.setHorizontalAlignment(JLabel.CENTER);
+            lblcelular.setBounds(0, (altura += 50), 500, 30);
+            lblcelular.setVisible(true);
+            Pagar.add(lblcelular);
+
             JLabel lblpagar = new JLabel("Elija metodo de Pago");
             lblpagar.setHorizontalAlignment(JLabel.CENTER);
-            lblpagar.setBounds(0, (altura += 30), 500, 30);
+            lblpagar.setBounds(0, (altura += 60), 500, 30);
             lblpagar.setVisible(true);
             Pagar.add(lblpagar);
 
             JButton efectivo = new JButton("Efectivo");
-            efectivo.setBounds(140, (altura + 40), 100, 30);
+            efectivo.setBounds(140, (altura + 60), 100, 30);
             efectivo.setVisible(true);
             Pagar.add(efectivo);            
 
             JButton Tarjeta = new JButton("Tarjeta");
-            Tarjeta.setBounds(260, (altura + 40), 100, 30);
+            Tarjeta.setBounds(260, (altura + 60), 100, 30);
             Tarjeta.setVisible(true);
             Pagar.add(Tarjeta);
 
@@ -444,19 +485,13 @@ public class Zapateria {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                        Boolean TarjetEfectiv = true;
-                        
-                        if (e.getSource() == Tarjeta) {
-                            TarjetEfectiv = true;
-                        }else if (e.getSource() == efectivo) {
-                            TarjetEfectiv = false;
-                        }
-                
-                    Formulario_Datos(TarjetEfectiv, TTotal);
-                    //Pide Datos Cuando vas a comprar
+                    if (e.getSource() == Tarjeta) {
+                        Tarjeta();
+                    }else if (e.getSource() == efectivo) {
+                        Efectivo(TTotal);
+                    }
                 }
             };
-
             efectivo.addActionListener(Pagos);
             Tarjeta.addActionListener(Pagos);
 
@@ -465,7 +500,7 @@ public class Zapateria {
     
     }
     
-    private static void Tarjeta(String Nombre, String Direccion, String Numero) {
+    private static void Tarjeta() {
         
         JFrame pagarTarjeta = new JFrame("Pasos para pagar");
         pagarTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -515,18 +550,31 @@ public class Zapateria {
                     String CVC = lblCVC.getText();
                     
                     if (!texto1.isEmpty() && !Num1.isEmpty() && !CVC.isEmpty()) {
+
+                        try {
+                            
+                            //Double ValidCVC = (Math.floor(Math.log10(Double.parseDouble(CVC)) + 1));
+                            //Double ValidNUmTarjeta = (Math.floor(Math.log10(Double.parseDouble(Num1)) + 1));
+                            
+                            int ValidCVC = (int) (Math.log10(Double.parseDouble(CVC)) + 1);
+                            int ValidNUmTarjeta = (int) (Math.log10(Double.parseDouble(Num1)) + 1);
+                            
+                            if (ValidCVC > 3 && ValidNUmTarjeta > 16) {
                                 
-                        for (int i = 0; i <= 30000; i++) {
-                            ProcesoPago.setValue(i);
-                            if (i == 30000) {
-                                JOptionPane.showConfirmDialog(null, "Verificado\nProductos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
-                                StringBuilder mensaje = new StringBuilder();
-                                mensaje.append("Persona destino: " + Nombre).append("\n");
-                                mensaje.append("Numero celular de quien recibe: " + Numero).append("\n");
-                                mensaje.append("Direccion donde se entregara: " + Direccion);
-                                
-                                JOptionPane.showMessageDialog(null, mensaje.toString(), "Detalles de Entrega", JOptionPane.INFORMATION_MESSAGE);
+                                for (int i = 0; i <= 30000; i++) {
+                                    ProcesoPago.setValue(i);
+                                    if (i == 30000) {
+                                        JOptionPane.showConfirmDialog(null, "Verificado\nProductos Pagados", "Pago Exitoso", JOptionPane.CLOSED_OPTION);
+                                    }
+                                }
+
+                            }else{
+
                             }
+                        } catch (Exception exception) {
+                            // TODO: handle exception
+
+                            JOptionPane.showConfirmDialog(null, "Verifica los Campos del Formulario Por Favor \n Numero de Tarjeta o CVC estan Incompletos o no son validos", "Verificar Datos", JOptionPane.CLOSED_OPTION);
                         }
                         
                         // Cuando se presiona el botón "Pagar", avanzar la barra de progreso al 100%
@@ -549,7 +597,7 @@ public class Zapateria {
         pagarTarjeta.setVisible(true);
     }
 
-    private static void Efectivo(Double Total, String Nombre, String Direccion, String Numero){
+    private static void Efectivo(Double Total){
 
         JFrame PagoEfectivo = new JFrame("Pago en Efectivo");
         PagoEfectivo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -596,13 +644,6 @@ public class Zapateria {
                             }else if (resultado > 0) {
                                 mensajeTotal.setText("Tu cambio es: " + resultado + ", Buen Dia :)");
                                 mensajeTotal.setVisible(true);
-
-                                StringBuilder mensaje = new StringBuilder();
-                                mensaje.append("Persona destino: " + Nombre).append("\n");
-                                mensaje.append("Numero celular de quien recibe: " + Numero).append("\n");
-                                mensaje.append("Direccion donde se entregara: " + Direccion);
-                                
-                                JOptionPane.showMessageDialog(null, mensaje.toString(), "Detalles de Entrega", JOptionPane.INFORMATION_MESSAGE);
                             }else{
                                 mensajeTotal.setText("Saldo insuficiente :(");
                                 mensajeTotal.setVisible(true);
@@ -639,7 +680,6 @@ public class Zapateria {
             //int index;
 
             for (int i = inicio; i < limite; i++){
-                //ImageIcon HuTao = new ImageIcon("/home/aya/Documentos/GitHub/Proyecto/src/Imagenes/" + Imagenes[i]);
                 ImageIcon HuTao = new ImageIcon("/home/aya/Documentos/GitHub/Proyecto/src/Imagenes/" + Imagenes[i]);
                 JLabel imagen = new JLabel();
 
@@ -653,8 +693,8 @@ public class Zapateria {
                         // TODO Auto-generated method stub
                         imagen.setBorder(BorderFactory.createLineBorder(Color.RED));
                         //BorderFactory es una clase en Java Swing que proporciona métodos estáticos para crear bordes 
-                        //imagen.setBorder(BorderFactory.createTitledBorder(productos[index]));
-                        //Como su nombre lo indica crea u titulo donde se muestra el nombre del articulo
+                        imagen.setBorder(BorderFactory.createTitledBorder(productos[index]));
+
                     }
 
                     @Override
@@ -679,72 +719,4 @@ public class Zapateria {
         VerImagen.setVisible(true);
     }
 
-    private static void Formulario_Datos(Boolean Tarjeta, Double Total) {
-        JFrame Formulario = new JFrame("Formulario");
-        Formulario.setLayout(null);
-
-            JLabel lblnombre = new JLabel("Introduce Nombre: ");
-            lblnombre.setVisible(true);
-            lblnombre.setBounds(10, 50, 200, 30);
-            Formulario.add(lblnombre);
-
-            JTextField txtNombre = new JTextField();
-            txtNombre.setVisible(true);
-            txtNombre.setBounds(230, 50, 220, 30);
-            Formulario.add(txtNombre);
-
-            JLabel lblCelular = new JLabel("Introduce Celular: ");
-            lblCelular.setVisible(true);
-            lblCelular.setBounds(10, 100, 200, 30);
-            Formulario.add(lblCelular);
-
-            JTextField txtCelular = new JTextField();
-            txtCelular.setVisible(true);
-            txtCelular.setBounds(230, 100, 220, 30);
-            Formulario.add(txtCelular);
-
-            JLabel lblDireccion = new JLabel("Introduce Direccion: ");
-            lblDireccion.setVisible(true);
-            lblDireccion.setBounds(10, 150, 200, 30);
-            Formulario.add(lblDireccion);
-
-            JTextField txtDireccion = new JTextField();
-            txtDireccion.setVisible(true);
-            txtDireccion.setBounds(230, 150, 220, 30);
-            Formulario.add(txtDireccion);
-
-            JButton MandarDatos = new JButton("Mandar Datos");
-            MandarDatos.setVisible(true);
-            MandarDatos.setBounds(180,200,150,30);
-            Formulario.add(MandarDatos);
-
-            ActionListener Pagar = new ActionListener(){
-            
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // TODO Auto-generated method stub
-                        
-                    String Nombre = txtNombre.getText();
-                    String Direccion = txtDireccion.getText();
-                    String Numero = txtCelular.getText();
-                    
-                        if (!Nombre.isEmpty() && !Direccion.isEmpty() && !Numero.isEmpty()) {
-                            if (Tarjeta == true) {
-                                Tarjeta(Nombre, Direccion, Numero);
-                            }else if (Tarjeta == false) {
-                                Efectivo(Total, Nombre, Direccion, Numero);
-                            }
-                        }else{
-                            JOptionPane.showMessageDialog(MandarDatos, "Verifica que los datos estan llenos", "Datos Incorrectos", 0);
-                        }
-                        
-                        Formulario.dispose();
-                }
-            };
-        
-        MandarDatos.addActionListener(Pagar);
-
-        Formulario.setSize(500,500);
-        Formulario.setVisible(true);
-    }
 }
